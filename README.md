@@ -1,5 +1,7 @@
 # 构页 / FRAME
 
+项目级网站工程 Skill 位于 [`.agents/skills/frame-website-engineering/SKILL.md`](.agents/skills/frame-website-engineering/SKILL.md)，用于后续 FRAME 页面、交互、视觉验证和静态部署修改。
+
 最新：首页强化高反差 **FRAME** 标识，四组标题支持靠边放大与全屏柔和散射；后续内容、电脑宣传页、3D 工作室、案例、末尾入口和页脚各有独立滚动响应。电脑宣传页复用 SUPER INTELLIGENCE 六页样本，可直接切换页面并进入作品或工作台。移动导航使用独立液态毛玻璃层。交付、实际测试及限制见 `HOME_MOTION_REPORT.md`；截图位于 `evidence/home-motion/`，专项命令 `npm run test:browser:home-motion`。
 
 桌面鼠标经过时的水纹使用更大范围的多层椭圆折射圈，边缘平滑淡出；触控设备和减少动态效果模式自动关闭。声音、导航和输入仍保持可用。专项回归：`npm run test:browser:comfort`。
