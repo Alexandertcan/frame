@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Icon from "./Icons";
+import { appPath } from "./paths";
 export function Login({ callback = false }: { callback?: boolean }) {
   const processed = useRef(false);
   const [email, setEmail] = useState(""),
@@ -536,7 +537,7 @@ export function CreatorAbout() {
       <section className="creator-profile">
         <figure>
           <img
-            src="/images/aleks-placeholder.jpg"
+            src={appPath("/images/aleks-placeholder.jpg")}
             alt="Aleks 的临时形象图，来自 Pexels，非本人照片"
             onError={(e) => {
               e.currentTarget.style.display = "none";

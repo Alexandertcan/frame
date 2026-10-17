@@ -325,7 +325,7 @@ function Wizard({
         setApiStatus(r.liveAvailable ? "API 已配置" : "API 未配置");
       })
       .catch(() => {
-        if (!controller.signal.aborted) setApiStatus("API 状态暂不可用");
+        if (!controller.signal.aborted) setApiStatus("API 未配置");
       });
     return () => controller.abort();
   }, []);
@@ -352,17 +352,27 @@ function Wizard({
     setStage(live ? "正在请求模型，整理多页内容…" : "正在应用所选方向…");
     try {
       validateSite(demoSite(brief, dir));
-      const r = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          brief: { ...brief, referenceIds: refs },
-          direction: dir,
-          mode: live ? "live" : "demo",
-        }),
-      });
-      const data = await r.json();
-      if (!r.ok) throw Error(data.error || "生成失败");
+      let data: { mode: string; site: Site };
+      try {
+        const r = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            brief: { ...brief, referenceIds: refs },
+            direction: dir,
+            mode: live ? "live" : "demo",
+          }),
+        });
+        const response = await r.json();
+        if (!r.ok) throw Error(response.error || "生成失败");
+        data = response;
+      } catch (error) {
+        if (live) throw error;
+        data = {
+          mode: "demo",
+          site: demoSite(brief, dir),
+        };
+      }
       setStage("正在校验页面路径与全站样式…");
       const site = validateSite(data.site);
       const p: Project = {

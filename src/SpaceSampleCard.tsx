@@ -1,4 +1,5 @@
 import Icon from "./Icons";
+import { appPath } from "./paths";
 export default function SpaceSampleCard({
   useSample,
   entryMode = false,
@@ -15,11 +16,11 @@ export default function SpaceSampleCard({
     >
       <a
         className="space-sample-art"
-        href="/inspiration/super-intelligence"
+        href={appPath("/inspiration/super-intelligence")}
         aria-label="查看 FRAME 作品 SUPER INTELLIGENCE"
       >
         <img
-          src="/assets/frame-orbit.jpg"
+          src={appPath("/assets/frame-orbit.jpg")}
           alt="SUPER INTELLIGENCE 原创轨道舱与地球场景"
         />
         <span>FRAME ORIGINAL / 001</span>
@@ -48,7 +49,10 @@ export default function SpaceSampleCard({
               {buttonLabel} <Icon name="arrow" size={15} />
             </button>
           )}
-          <a className="text-button" href="/inspiration/super-intelligence">
+          <a
+            className="text-button"
+            href={appPath("/inspiration/super-intelligence")}
+          >
             查看作品 <Icon name="external" size={14} />
           </a>
         </div>

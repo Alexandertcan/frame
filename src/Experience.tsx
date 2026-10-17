@@ -10,6 +10,7 @@ import Icon from "./Icons";
 import DraggableTitle from "./DraggableTitle";
 import { useHomeScroll } from "./useHomeScroll";
 import ComputerShowcase from "./ComputerShowcase";
+import { appPath } from "./paths";
 const KineticScene = lazy(() => import("./KineticScene"));
 const Studio = lazy(() => import("./Studio"));
 export default function Experience({
@@ -241,7 +242,9 @@ export default function Experience({
         </div>
         <div className="experience-room">
           <Suspense
-            fallback={<img src="/studio/studio.png" alt="工作室静态场景" />}
+            fallback={
+              <img src={appPath("/studio/studio.png")} alt="工作室静态场景" />
+            }
           >
             <Studio navigate={navigate} scrollProgress={studioProgress} />
           </Suspense>

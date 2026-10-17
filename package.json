@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node dev.mjs",
     "build": "tsc -b && vite build",
+    "build:pages": "node scripts/build-pages.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "test": "node tests/core.test.mjs && node tests/auth.test.mjs && node tests/space-site.test.mjs",
     "test:browser:space": "node tests/space-browser.mjs",

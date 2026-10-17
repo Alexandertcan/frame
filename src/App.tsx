@@ -20,6 +20,7 @@ import {
   Sponsorship,
   GlassRefraction,
 } from "./Atmosphere";
+import { appPath, logicalPath } from "./paths";
 function readLocal<T>(key: string, initial: T): T {
   try {
     const value = localStorage.getItem(key);
@@ -37,7 +38,7 @@ const links = [
   ["/projects", "我的项目"],
 ];
 export default function App() {
-  const [route, setRoute] = useState(location.pathname);
+  const [route, setRoute] = useState(() => logicalPath());
   const [projects, setProjects] = useState<Project[]>(() =>
     (() => {
       try {
@@ -100,15 +101,15 @@ export default function App() {
     return () => clearTimeout(t);
   }, [toast]);
   const navigate = useCallback((path: string) => {
-    history.pushState(null, "", path);
-    setRoute(location.pathname);
+    history.pushState(null, "", appPath(path));
+    setRoute(logicalPath());
     setVisit((x) => x + 1);
     setMenu(false);
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
   useEffect(() => {
     const pop = () => {
-      setRoute(location.pathname);
+      setRoute(logicalPath());
       setVisit((x) => x + 1);
       setMenu(false);
     };
@@ -123,14 +124,14 @@ export default function App() {
         a.origin === location.origin &&
         !a.target &&
         !a.download &&
-        a.pathname !== location.pathname &&
+        a.pathname !== appPath(logicalPath()) &&
         e.button === 0 &&
         !e.ctrlKey &&
         !e.metaKey &&
         !e.shiftKey
       ) {
         e.preventDefault();
-        navigate(a.pathname + a.search + a.hash);
+        navigate(logicalPath(a.pathname) + a.search + a.hash);
       }
     };
     document.addEventListener("click", click);

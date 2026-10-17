@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
+import { appPath } from "./paths";
 const targets = {
   create: { label: "开始创建", path: "/workspace", point: [0.3, 1.8, 0.3] },
   inspiration: {
@@ -97,7 +98,7 @@ export default function Studio({
         scene.add(fill);
         scene.add(new THREE.AmbientLight(0xffffff, 0.55));
         const gltf = await new GLTFLoader().loadAsync(
-          "/studio/studio.glb",
+          appPath("/studio/studio.glb"),
           (e) => {
             if (!stopped && e.total)
               setState(
@@ -285,7 +286,7 @@ export default function Studio({
   return (
     <div className="studio-visual">
       <img
-        src="/studio/studio.png"
+        src={appPath("/studio/studio.png")}
         alt="原创数字设计工作室：设计工作台、参考样本架、项目档案和材质转轮"
         className={`studio-still ${ready ? "is-hidden" : ""}`}
       />

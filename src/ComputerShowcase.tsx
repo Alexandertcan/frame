@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Preview } from "./Workspace";
 import { spaceSite } from "./space-demo";
+import { appPath } from "./paths";
 
 /** The same editable six-page sample, presented inside a physical monitor. */
 export default function ComputerShowcase() {
@@ -31,7 +32,7 @@ export default function ComputerShowcase() {
               <Preview site={site} pageId={pageId} />
             ) : (
               <img
-                src="/assets/frame-orbit.jpg"
+                src={appPath("/assets/frame-orbit.jpg")}
                 alt="SUPER INTELLIGENCE 太空旅行网站预览"
                 loading="lazy"
               />

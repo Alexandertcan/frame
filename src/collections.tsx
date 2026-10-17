@@ -1,4 +1,5 @@
 import Icon from "./Icons";
+import { appPath } from "./paths";
 export const collections = [
   {
     name: "Awwwards",
@@ -126,7 +127,11 @@ export function ByotoneStudy() {
             Landing Love 原案例与录屏
             <Icon name="external" size={14} />
           </a>
-          <a href="/examples/byotone.html" target="_blank" rel="noreferrer">
+          <a
+            href={appPath("/examples/byotone.html")}
+            target="_blank"
+            rel="noreferrer"
+          >
             打开独立 HTML 研究页
             <Icon name="external" size={14} />
           </a>
