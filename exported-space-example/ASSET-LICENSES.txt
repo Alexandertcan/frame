@@ -1,0 +1,6 @@
+Earth surface: NASA / Goddard Space Flight Center, Blue Marble.
+Source: https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/land_ocean_ice_2048.png
+Cloud map: https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57747/cloud_combined_2048.jpg
+Usage guidelines: https://www.nasa.gov/nasa-brand-center/images-and-media/
+NASA content generally is not subject to copyright in the United States; use is subject to its Media Usage Guidelines. NASA is acknowledged as source; no affiliation or endorsement is implied. No NASA logo is used. Converted to JPEG for this concept website.
+ASTER geometry, scene code and interface: original FRAME concept work.

@@ -1,0 +1,49 @@
+{
+  "name": "frame",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node dev.mjs",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node tests/core.test.mjs && node tests/auth.test.mjs && node tests/space-site.test.mjs",
+    "test:browser:space": "node tests/space-browser.mjs",
+    "test:browser:samples": "node tests/sample-connections-browser.mjs",
+    "test:browser:titles": "node tests/chapter-titles-browser.mjs",
+    "test:browser:home-motion": "node tests/home-motion-browser.mjs",
+    "server": "node server/index.mjs",
+    "start": "node dev.mjs --production",
+    "test:browser": "node tests/browser.mjs",
+    "test:browser:extra": "node tests/browser-extra.mjs",
+    "format": "prettier --write src server tests dev.mjs vite.config.ts",
+    "test:browser:assets": "node tests/browser-assets.mjs",
+    "test:browser:revision": "node tests/revision-browser.mjs",
+    "test:browser:comfort": "node tests/comfort-browser.mjs",
+    "test:browser:glass-sound": "node tests/glass-sound-browser.mjs",
+    "test:browser:workspace": "node tests/workspace-glass-browser.mjs",
+    "test:browser:wizard": "node tests/workspace-wizard-glass-browser.mjs",
+    "test:browser:workspace-entries": "node tests/workspace-entry-modes-browser.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "5.3.0",
+    "@fontsource-variable/manrope": "5.3.0",
+    "fflate": "0.8.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@types/three": "0.180.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "playwright": "1.64.1",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "vite": "8.3.4"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

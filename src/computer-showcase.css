@@ -1,0 +1,301 @@
+.experience-case {
+  overflow: hidden;
+}
+.featured-computer-case {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(250px, 0.85fr);
+  align-items: center;
+  gap: 5%;
+}
+.computer-showcase {
+  position: relative;
+  min-width: 0;
+  padding: 15px 0 0;
+}
+.computer-showcase::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 90px;
+  height: 25px;
+  border-radius: 50%;
+  background: #27453524;
+  filter: blur(18px);
+  transform: scaleX(calc(0.7 + var(--arrive) * 0.3));
+  pointer-events: none;
+}
+.promo-computer {
+  position: relative;
+  transform-origin: 50% 75%;
+  transform: perspective(1700px) rotateY(calc((var(--travel) - 0.5) * 24deg))
+    rotateX(calc((1 - var(--arrive)) * 16deg))
+    translateY(calc((1 - var(--arrive)) * 34px));
+}
+.computer-display {
+  position: relative;
+  padding: 17px 10px 0;
+  border: 1px solid #e4e9e6;
+  border-radius: 20px;
+  background: linear-gradient(
+    125deg,
+    #c9d1cc,
+    #f5f6f3 29%,
+    #8c9b92 70%,
+    #d4dbd6
+  );
+  box-shadow:
+    0 2px 1px #1e332d88,
+    0 17px 34px #102d2523,
+    inset 1px 1px 1px #fff;
+  overflow: hidden;
+}
+.computer-camera {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  top: 6px;
+  left: calc(50% - 2px);
+  border-radius: 50%;
+  background: #172920;
+  box-shadow: inset 0 0 0 1px #4d615b;
+}
+.computer-screen {
+  position: relative;
+  border: 4px solid #101b17;
+  border-radius: 9px;
+  overflow: hidden;
+  background: #080f19;
+  aspect-ratio: 1200 / 850;
+}
+.computer-screen > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.computer-screen .preview-wrap {
+  border: 0;
+  box-shadow: none;
+  background: #080f19;
+}
+.computer-screen .preview-address {
+  height: 24px;
+  padding-inline: 9px;
+  font-size: 7px;
+  background: #dce5df;
+  color: #3b5346;
+  border-color: #718d7a;
+}
+.computer-screen .preview-address button {
+  font-size: 16px;
+  color: #294b39;
+}
+.computer-screen .preview-dots {
+  gap: 4px;
+}
+.computer-screen .preview-dots i {
+  width: 4px;
+  height: 4px;
+}
+.computer-screen .preview-error {
+  position: absolute;
+  inset: 24px 0 auto;
+  z-index: 4;
+  color: #4c3a12;
+  background: #fff4d4;
+}
+.computer-screen .preview-loading {
+  top: 34px;
+  left: 8px;
+  right: 8px;
+  font-size: 10px;
+}
+.computer-chin {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 34px;
+  padding: 0 10px;
+  color: #344a3c;
+}
+.computer-chin b {
+  font:
+    800 10px "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.04em;
+}
+.computer-chin > span {
+  font-size: 7px;
+  letter-spacing: 0.03em;
+}
+.computer-chin > i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #8aac98;
+  box-shadow: 0 0 4px #b8e6c5;
+}
+.computer-neck {
+  position: relative;
+  margin: 1px auto 0;
+  width: 17%;
+  height: 57px;
+  background: linear-gradient(90deg, #b0bdb4, #ecf0eb 40%, #a6b5aa);
+  clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%);
+  box-shadow: inset 0 15px 14px #46594e24;
+}
+.computer-foot {
+  position: relative;
+  width: 35%;
+  height: 12px;
+  margin: -3px auto 0;
+  border-radius: 50% 50% 5px 5px;
+  background: linear-gradient(#edf0ec, #bac8bd 70%, #798f7f);
+  box-shadow:
+    0 6px 12px #314c3726,
+    inset 0 1px 0 #fff;
+}
+.computer-page-switcher {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+  width: max-content;
+  max-width: 100%;
+  margin: 27px auto 0;
+  padding: 5px;
+  border-radius: 30px;
+  background: #fff9;
+  border: 1px solid #fff;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 5px 20px #244c3410;
+}
+.computer-page-switcher button {
+  padding: 9px 11px;
+  min-height: 36px;
+  border-radius: 24px;
+  color: #4b6655;
+  font-size: 10px;
+}
+.computer-page-switcher button[aria-pressed="true"] {
+  background: #234635;
+  color: #e6f6e9;
+}
+.computer-page-switcher button:hover {
+  background: #c9e4d4;
+  color: #173c29;
+}
+.computer-caption {
+  font-size: 10px;
+  color: #5a7262;
+  text-align: center;
+  margin-top: 13px;
+  line-height: 1.8;
+}
+.computer-caption > span {
+  display: block;
+  font-size: 9px;
+  color: #6d7d71;
+}
+.computer-case-copy .small-label {
+  font-size: 11px;
+  color: #586d60;
+  letter-spacing: 0.06em;
+}
+.computer-case-copy h3 {
+  font-size: clamp(30px, 3vw, 46px);
+  line-height: 1.4;
+  letter-spacing: -0.05em;
+  margin: 22px 0;
+  color: #243e2e;
+}
+.computer-case-copy h3 em {
+  font-style: normal;
+  font-weight: inherit;
+  color: #54745f;
+}
+.computer-case-copy > p {
+  font-size: 13px;
+  color: #5b6f60;
+  line-height: 1.95;
+}
+.computer-case-actions {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 23px;
+  margin: 28px 0 24px;
+}
+.computer-case-actions .button {
+  font-size: 12px;
+  background: #234635;
+  color: #e7f6e9;
+}
+.computer-case-actions .text-button {
+  font-size: 11px;
+}
+.computer-case-copy > small {
+  font-size: 10px;
+  line-height: 1.9;
+  color: #6a7d6e;
+}
+@media (max-width: 760px) {
+  .promo-computer {
+    transform: perspective(1700px) rotateY(calc((var(--travel) - 0.5) * 14deg))
+      rotateX(calc((1 - var(--arrive)) * 10deg))
+      translateY(calc((1 - var(--arrive)) * 22px));
+  }
+  .featured-computer-case {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 45px;
+  }
+  .computer-display {
+    padding: 13px 6px 0;
+    border-radius: 12px;
+  }
+  .computer-camera {
+    top: 4px;
+  }
+  .computer-screen {
+    border-width: 3px;
+    border-radius: 6px;
+    aspect-ratio: auto;
+  }
+  .computer-chin {
+    height: 27px;
+    padding-inline: 5px;
+  }
+  .computer-chin > span {
+    font-size: 6px;
+  }
+  .computer-neck {
+    height: 38px;
+  }
+  .computer-page-switcher {
+    gap: 2px;
+    padding: 4px;
+    border-radius: 22px;
+  }
+  .computer-page-switcher button {
+    padding: 9px 8px;
+    min-height: 38px;
+    font-size: 10px;
+  }
+  .computer-case-copy h3 {
+    font-size: 34px;
+  }
+  .computer-case-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .promo-computer,
+  .computer-showcase::before {
+    transform: none;
+  }
+}
