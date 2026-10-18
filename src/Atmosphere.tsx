@@ -274,7 +274,7 @@ export function InteractionAtmosphere({ route }: { route: string }) {
         ripples.push({
           ...pointer,
           born: now,
-          power: power > 40 ? 100 : 78 * (1 + flow * 0.06),
+          power: power > 40 ? 100 : 52 * (1 + flow * 0.04),
           phase: now * 0.0017,
         });
         if (ripples.length > 22) ripples.shift();
@@ -301,7 +301,7 @@ export function InteractionAtmosphere({ route }: { route: string }) {
       label.style.opacity =
         target.closest("a,button") && !draggingTitle ? "0" : "1";
     }
-    const move = (e: PointerEvent) => addRipple(e, 36);
+    const move = (e: PointerEvent) => addRipple(e, 30);
     const down = (e: PointerEvent) => addRipple(e, 62);
     const hide = () => {
       label.style.opacity = "0";
