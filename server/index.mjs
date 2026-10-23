@@ -37,8 +37,17 @@ http
     try {
       if (req.method === "GET" && req.url === "/api/status")
         return json(res, 200, {
-          liveAvailable: !!process.env.OPENAI_API_KEY,
-          mode: process.env.OPENAI_API_KEY ? "connected" : "demo",
+          liveAvailable: !!(
+            process.env.OPENAI_API_KEY || process.env.RELAY_API_KEY
+          ),
+          providers: {
+            official: !!process.env.OPENAI_API_KEY,
+            relay: !!(process.env.RELAY_API_KEY && process.env.RELAY_BASE_URL),
+          },
+          mode:
+            process.env.OPENAI_API_KEY || process.env.RELAY_API_KEY
+              ? "connected"
+              : "demo",
         });
       if (req.url.startsWith("/api/auth/")) {
         const origin = req.headers.origin;
@@ -93,22 +102,39 @@ http
             site: validateSite(demoSite(b.brief, b.direction)),
           });
         }
-        if (!process.env.OPENAI_API_KEY)
+        const provider = b.provider === "relay" ? "relay" : "official";
+        const providerConfig =
+          provider === "relay"
+            ? {
+                key: process.env.RELAY_API_KEY,
+                baseUrl: process.env.RELAY_BASE_URL,
+                models: ["deepseek-chat", "deepseek-reasoner", "gpt-4.1-mini"],
+              }
+            : {
+                key: process.env.OPENAI_API_KEY,
+                baseUrl: "https://api.openai.com/v1",
+                models: ["gpt-4.1-mini", "gpt-4.1", "gpt-4o-mini"],
+              };
+        if (!providerConfig.key || !providerConfig.baseUrl)
           return json(res, 503, {
-            error:
-              "API 未配置。请使用本地预置布局，或按 README 配置服务端 API Key 后重启服务。",
+            error: "所选 API 未配置。请在服务端配置对应地址与密钥后重启服务。",
           });
+        const model = providerConfig.models.includes(b.model)
+          ? b.model
+          : provider === "relay"
+            ? "deepseek-chat"
+            : process.env.OPENAI_MODEL || "gpt-4.1-mini";
         const preset = demoSite(b.brief, b.direction);
         const response = await fetch(
-          "https://api.openai.com/v1/chat/completions",
+          `${providerConfig.baseUrl.replace(/\/$/, "")}/chat/completions`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+              Authorization: `Bearer ${providerConfig.key}`,
             },
             body: JSON.stringify({
-              model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
+              model,
               response_format: { type: "json_object" },
               messages: [
                 {
@@ -163,7 +189,7 @@ http
   })
   .listen(apiPort, "127.0.0.1", () =>
     console.log(
-      `FRAME API http://127.0.0.1:${apiPort} · ${process.env.OPENAI_API_KEY ? "model configured" : "DEMO MODE"}`,
+      `FRAME API http://127.0.0.1:${apiPort} · ${process.env.OPENAI_API_KEY || process.env.RELAY_API_KEY ? "model configured" : "DEMO MODE"}`,
     ),
   );
 http

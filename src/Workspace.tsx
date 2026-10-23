@@ -18,6 +18,7 @@ import Icon from "./Icons";
 import SpaceSampleCard from "./SpaceSampleCard";
 import { isSpaceSite, spaceProject } from "./space-demo";
 import { references } from "./data";
+import { collections } from "./collections";
 export function Preview({
   site,
   pageId,
@@ -309,6 +310,10 @@ function Wizard({
   const [live, setLive] = useState(false);
   const [canLive, setCanLive] = useState(false);
   const [apiStatus, setApiStatus] = useState("正在检查 API…");
+  const [providers, setProviders] = useState({ official: false, relay: false });
+  const [provider, setProvider] = useState<"official" | "relay">("official");
+  const [model, setModel] = useState("gpt-4.1-mini");
+  const [modelMenuOpen, setModelMenuOpen] = useState(false);
   const [refs, setRefs] = useState(referencesSelected);
   useEffect(() => {
     const controller = new AbortController();
@@ -321,8 +326,15 @@ function Wizard({
         return status;
       })
       .then((r) => {
-        setCanLive(r.liveAvailable);
-        setApiStatus(r.liveAvailable ? "API 已配置" : "API 未配置");
+        const configured = r.providers || {
+          official: r.liveAvailable,
+          relay: false,
+        };
+        setProviders(configured);
+        setCanLive(Boolean(configured.official || configured.relay));
+        setApiStatus(
+          configured.official || configured.relay ? "API 已配置" : "API 未配置",
+        );
       })
       .catch(() => {
         if (!controller.signal.aborted) setApiStatus("API 未配置");
@@ -361,6 +373,8 @@ function Wizard({
             brief: { ...brief, referenceIds: refs },
             direction: dir,
             mode: live ? "live" : "demo",
+            provider,
+            model,
           }),
         });
         const response = await r.json();
@@ -547,61 +561,81 @@ function Wizard({
                 作为参考记录保存，不自动抓取外站。
               </span>
             </label>
-            <h3>
-              参考选择 <span className="muted">{refs.length}</span>
-            </h3>
-            <p className="fine-print">
-              直接选用已核验的网站链接，也可勾选多个案例。当前只保存参考，不抓取或复制原站。
-            </p>
-            <div className="recommended-links">
-              {references.map((r) => (
-                <div className="recommended-link" key={r.id}>
-                  <label className="reference-check">
-                    <input
-                      type="checkbox"
-                      checked={refs.includes(r.id)}
-                      onChange={() =>
-                        setRefs((x) =>
-                          x.includes(r.id)
-                            ? x.filter((a) => a !== r.id)
-                            : [...x, r.id],
-                        )
-                      }
-                    />
-                    <span>
-                      {r.name}
-                      <small>{r.style}</small>
-                    </span>
-                  </label>
+            <details className="reference-disclosure">
+              <summary>
+                <span>参考网站与网站集</span>
+                <span className="reference-disclosure-count">
+                  {refs.length} 已选
+                </span>
+                <Icon name="chevron" size={16} />
+              </summary>
+              <p className="fine-print">
+                选择案例或打开网站集浏览。这里只保存参考，不抓取或复制原站。
+              </p>
+              <div className="reference-collection-links">
+                {collections.map((collection) => (
                   <a
-                    className="recommended-domain"
-                    href={r.url}
+                    href={collection.url}
                     target="_blank"
                     rel="noreferrer"
+                    key={collection.name}
                   >
-                    {new URL(r.url).hostname.replace(/^www\./, "")}{" "}
-                    <Icon name="external" size={12} />
+                    <b>{collection.name}</b>
+                    <span>{collection.type}</span>
+                    <Icon name="external" size={13} />
                   </a>
-                  <button
-                    className="text-button"
-                    aria-label={`用作参考链接：${r.name}`}
-                    aria-pressed={brief.referenceUrl === r.url}
-                    onClick={() => {
-                      update("referenceUrl", r.url);
-                      setRefs((x) => (x.includes(r.id) ? x : [...x, r.id]));
-                    }}
-                  >
-                    <Icon
-                      name={brief.referenceUrl === r.url ? "check" : "plus"}
-                      size={13}
-                    />
-                    {brief.referenceUrl === r.url
-                      ? "已用作参考链接"
-                      : "用作参考链接"}
-                  </button>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              <div className="recommended-links">
+                {references.map((r) => (
+                  <div className="recommended-link" key={r.id}>
+                    <label className="reference-check">
+                      <input
+                        type="checkbox"
+                        checked={refs.includes(r.id)}
+                        onChange={() =>
+                          setRefs((x) =>
+                            x.includes(r.id)
+                              ? x.filter((a) => a !== r.id)
+                              : [...x, r.id],
+                          )
+                        }
+                      />
+                      <span>
+                        {r.name}
+                        <small>{r.style}</small>
+                      </span>
+                    </label>
+                    <a
+                      className="recommended-domain"
+                      href={r.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {new URL(r.url).hostname.replace(/^www\./, "")}{" "}
+                      <Icon name="external" size={12} />
+                    </a>
+                    <button
+                      className="text-button"
+                      aria-label={`用作参考链接：${r.name}`}
+                      aria-pressed={brief.referenceUrl === r.url}
+                      onClick={() => {
+                        update("referenceUrl", r.url);
+                        setRefs((x) => (x.includes(r.id) ? x : [...x, r.id]));
+                      }}
+                    >
+                      <Icon
+                        name={brief.referenceUrl === r.url ? "check" : "plus"}
+                        size={13}
+                      />
+                      {brief.referenceUrl === r.url
+                        ? "已用作参考链接"
+                        : "用作参考链接"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </details>
           </aside>
         </div>
       )}
@@ -790,7 +824,107 @@ function Wizard({
                 ? "通过服务端模型生成多页内容。"
                 : "将你的内容填入预置布局，不调用模型。"}
             </p>
-            {canLive && (
+            <fieldset className="model-picker" aria-label="模型服务">
+              <legend>模型</legend>
+              <div className="model-provider-tabs">
+                <button
+                  type="button"
+                  className={provider === "official" ? "selected" : ""}
+                  aria-pressed={provider === "official"}
+                  onClick={() => {
+                    setProvider("official");
+                    setModel("gpt-4.1-mini");
+                    setModelMenuOpen(false);
+                  }}
+                >
+                  官方 API
+                </button>
+                <button
+                  type="button"
+                  className={provider === "relay" ? "selected" : ""}
+                  aria-pressed={provider === "relay"}
+                  onClick={() => {
+                    setProvider("relay");
+                    setModel("deepseek-chat");
+                    setModelMenuOpen(false);
+                  }}
+                >
+                  中转站 API
+                </button>
+              </div>
+              <span className="model-picker-label">选择模型</span>
+              <div
+                className="model-select-wrap"
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") setModelMenuOpen(false);
+                }}
+              >
+                <button
+                  className="model-select-trigger"
+                  type="button"
+                  aria-label={`选择模型：${model}`}
+                  aria-haspopup="listbox"
+                  aria-expanded={modelMenuOpen}
+                  onClick={() => setModelMenuOpen((open) => !open)}
+                >
+                  <span>
+                    {model === "gpt-4.1-mini"
+                      ? "GPT-4.1 mini"
+                      : model === "gpt-4.1"
+                        ? "GPT-4.1"
+                        : model === "gpt-4o-mini"
+                          ? "GPT-4o mini"
+                          : model === "deepseek-chat"
+                            ? "DeepSeek Chat"
+                            : "DeepSeek Reasoner"}
+                  </span>
+                  <Icon name="chevron" size={15} />
+                </button>
+                {modelMenuOpen && (
+                  <div
+                    className="model-select-options"
+                    role="listbox"
+                    aria-label="可选模型"
+                  >
+                    {(provider === "official"
+                      ? [
+                          ["gpt-4.1-mini", "GPT-4.1 mini"],
+                          ["gpt-4.1", "GPT-4.1"],
+                          ["gpt-4o-mini", "GPT-4o mini"],
+                        ]
+                      : [
+                          ["deepseek-chat", "DeepSeek Chat"],
+                          ["deepseek-reasoner", "DeepSeek Reasoner"],
+                          ["gpt-4.1-mini", "GPT-4.1 mini"],
+                        ]
+                    ).map(([value, label]) => (
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={model === value}
+                        className={model === value ? "selected" : ""}
+                        key={value}
+                        onClick={() => {
+                          setModel(value);
+                          setModelMenuOpen(false);
+                        }}
+                      >
+                        {label}
+                        {model === value && <Icon name="check" size={14} />}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <span className="model-provider-status">
+                {providers[provider]
+                  ? "此服务已配置"
+                  : provider === "official"
+                    ? "需在服务端配置 OPENAI_API_KEY"
+                    : "需在服务端配置中转站地址与密钥"}
+              </span>
+            </fieldset>
+            {canLive && providers[provider] && (
               <label>
                 <input
                   type="checkbox"

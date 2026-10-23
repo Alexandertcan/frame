@@ -1067,6 +1067,187 @@ body[data-page="workspace"]:has(.workspace-start) {
   display: grid;
   gap: 10px;
 }
+.wizard .reference-disclosure {
+  padding: 14px 15px;
+  border: 1px solid #c7ffe52e;
+  border-radius: 15px;
+  background: #d9ffed07;
+}
+.wizard .reference-disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  color: #d8f1e1;
+  font-size: 13px;
+  list-style: none;
+}
+.wizard .reference-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.wizard .reference-disclosure > summary svg {
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+.wizard .reference-disclosure[open] > summary svg {
+  transform: rotate(90deg);
+}
+.wizard .reference-disclosure-count {
+  color: #a9c6b4;
+  font-size: 11px;
+}
+.wizard .reference-collection-links {
+  display: grid;
+  gap: 7px;
+  margin: 14px 0;
+}
+.wizard .reference-collection-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid #c7ffe520;
+  border-radius: 11px;
+  color: #d9f2e3;
+  background: #061d1628;
+  text-decoration: none;
+}
+.wizard .reference-collection-links a span {
+  color: #a9c6b4;
+  font-size: 10px;
+}
+.wizard .reference-collection-links a svg {
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+.wizard .model-picker {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+  padding: 14px;
+  border: 1px solid #d7ffe13d;
+  border-radius: 14px;
+  background: #061d1630;
+}
+.wizard .model-picker legend {
+  padding: 0 5px;
+  color: #d1e7d9;
+  font-size: 12px;
+}
+.wizard .model-provider-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid #c7ffe52e;
+  border-radius: 12px;
+}
+.wizard .model-provider-tabs button {
+  flex: 1;
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #afc8b9;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+}
+.wizard .model-provider-tabs button.selected {
+  color: #eafff1;
+  border-color: #d3ffe45e;
+  background: #cfffdf20;
+}
+.wizard .model-picker-label {
+  color: #d1e7d9;
+  font-size: 11px;
+}
+.wizard .model-select-wrap {
+  position: relative;
+}
+.wizard .model-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #c8f4dc55;
+  border-radius: 11px;
+  color: #eafff1;
+  background: linear-gradient(135deg, #d9ffed12, #061d1645);
+  box-shadow:
+    inset 0 1px 1px #effff51c,
+    0 4px 12px #0002;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  font-size: 12px;
+}
+.wizard .model-select-trigger:hover,
+.wizard .model-select-trigger[aria-expanded="true"] {
+  border-color: #b9f5cfb0;
+  background-color: #cfffdf12;
+}
+.wizard .model-select-trigger svg {
+  transform: rotate(90deg);
+  color: #b6d6c3;
+}
+.wizard .model-select-trigger[aria-expanded="true"] svg {
+  transform: rotate(-90deg);
+}
+.wizard .model-select-options {
+  position: absolute;
+  z-index: 20;
+  inset: calc(100% + 7px) 0 auto;
+  padding: 5px;
+  border: 1px solid #c8f4dc5c;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #17392ef5, #0b211bf7);
+  box-shadow:
+    inset 0 1px 0 #effff522,
+    0 14px 32px #0007;
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  backdrop-filter: blur(20px) saturate(1.2);
+}
+.wizard .model-select-options button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #c7dfd1;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  font-size: 12px;
+  transition:
+    background 0.16s,
+    color 0.16s,
+    border-color 0.16s;
+}
+.wizard .model-select-options button:hover,
+.wizard .model-select-options button:focus-visible {
+  outline: none;
+  color: #f1fff6;
+  background: #d8ffeb19;
+  border-color: #c8f4dc2b;
+}
+.wizard .model-select-options button.selected {
+  color: #e7fff0;
+  background: linear-gradient(100deg, #b9f5cf2b, #b9f5cf0d);
+}
+.wizard .model-select-options button.selected svg {
+  color: #b9f5cf;
+}
+.wizard .model-provider-status {
+  color: #a9c6b4;
+  font-size: 10px;
+}
 .wizard .recommended-link {
   padding: 12px 14px;
   border: 1px solid #c7ffe52e;

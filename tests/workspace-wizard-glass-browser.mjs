@@ -18,6 +18,17 @@ try {
     });
     const page = await context.newPage();
     page.on("pageerror", (e) => errors.push(e.message));
+    await page.route("**/api/status", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          liveAvailable: true,
+          providers: { official: true, relay: true },
+          mode: "connected",
+        }),
+      }),
+    );
     await page.goto("http://127.0.0.1:4173/workspace?mode=blank");
     await page.locator(".wizard").waitFor();
     assert.equal(
@@ -57,6 +68,16 @@ try {
     await page
       .getByRole("button", { name: "填入样本内容", exact: true })
       .click();
+    const referencesDisclosure = page.locator(
+      ".reference-disclosure > summary",
+    );
+    await referencesDisclosure.waitFor();
+    assert.equal(await page.locator(".recommended-links").isVisible(), false);
+    await referencesDisclosure.click();
+    await page
+      .locator(".reference-collection-links")
+      .getByText("Awwwards")
+      .waitFor();
     await page.getByRole("checkbox").first().check();
     assert.ok(await page.getByRole("checkbox").first().isChecked());
     for (let step = 0; step < 3; step++) {
@@ -137,6 +158,17 @@ try {
         );
       }
     }
+    const providerPicker = page.getByRole("group", { name: "模型服务" });
+    await providerPicker.getByRole("button", { name: "中转站 API" }).click();
+    await page.locator(".model-select-trigger").click();
+    await page.getByRole("option", { name: "DeepSeek Chat" }).click();
+    assert.match(
+      await page.locator(".model-select-trigger").innerText(),
+      /DeepSeek Chat/,
+    );
+    await providerPicker.getByRole("button", { name: "官方 API" }).click();
+    await page.locator(".model-select-trigger").click();
+    await page.getByRole("option", { name: "GPT-4.1", exact: true }).click();
     await page.getByRole("button", { name: "上一步", exact: true }).click();
     assert.equal(
       await page
@@ -148,6 +180,7 @@ try {
     if (width === 1440 || width === 390) {
       if (width === 390) await page.emulateMedia({ reducedMotion: "reduce" });
       if (width === 1440) {
+        await page.getByLabel("使用已配置的真实模型").check();
         await page.route("**/api/generate", (route) =>
           route.fulfill({
             status: 503,
@@ -156,7 +189,7 @@ try {
           }),
         );
         await page
-          .getByRole("button", { name: "生成网站", exact: true })
+          .getByRole("button", { name: "调用模型并生成", exact: true })
           .click();
         await page
           .getByRole("alert")
@@ -164,10 +197,11 @@ try {
           .waitFor();
         assert.ok(
           await page
-            .getByRole("button", { name: "生成网站", exact: true })
+            .getByRole("button", { name: "调用模型并生成", exact: true })
             .isEnabled(),
         );
         await page.unroute("**/api/generate");
+        await page.getByLabel("使用已配置的真实模型").uncheck();
       }
       await page.getByRole("button", { name: "生成网站", exact: true }).click();
       await page.locator(".editor").waitFor();
@@ -203,6 +237,11 @@ try {
         await page.locator("body").getAttribute("data-page"),
         "workspace",
       );
+    }
+    if (width === 1440) {
+      await page.goto("http://127.0.0.1:4173/inspiration");
+      assert.equal(await page.locator(".space-sample-card").count(), 0);
+      await page.getByRole("heading", { name: /好设计/ }).waitFor();
     }
     pass(
       `${width}px: three glass steps, validation, references, page actions, selection and no overflow${width === 1440 || width === 390 ? "; generation, persistence and back navigation" : ""}`,

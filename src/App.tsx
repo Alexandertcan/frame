@@ -10,7 +10,6 @@ import {
   unpackProjects,
 } from "./core";
 import Experience from "./Experience";
-import SpaceSampleCard from "./SpaceSampleCard";
 import { spaceSite, spaceProject, upgradeSpaceDemo } from "./space-demo";
 import { Login, Pricing, CreatorAbout } from "./AccountPages";
 import { WebsiteCollections, ByotoneStudy } from "./collections";
@@ -895,7 +894,6 @@ function Inspiration({
           </span>
         </div>
       </div>
-      <SpaceSampleCard />
       <div className="library-controls">
         <label className="search-box">
           <Icon name="search" />
